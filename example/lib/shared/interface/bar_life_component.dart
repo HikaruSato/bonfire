@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
 
@@ -8,8 +10,11 @@ class BarLifeInterface extends InterfaceComponent
   final double padding = 20;
   final double widthBar = 90;
   final double strokeWidth = 12;
+  final ui.Image image;
 
-  BarLifeInterface()
+  BarLifeInterface({
+    required this.image,
+  })
       : super(
           id: 1,
           position: Vector2(20, 20),
@@ -21,6 +26,7 @@ class BarLifeInterface extends InterfaceComponent
   void render(Canvas canvas) {
     super.render(canvas);
     try {
+      // _init();
       _drawLife(canvas);
       _drawStamina(canvas);
     } catch (e) {
@@ -28,6 +34,46 @@ class BarLifeInterface extends InterfaceComponent
       print(e);
     }
   }
+
+  // ui.Image? image;
+  // Future<void> _init() async {
+  //   rootBundle.load("assets/images/fire_icon.png").then((icon) {
+  //     Uint8List lst = Uint8List.view(icon.buffer);
+  //     ui.instantiateImageCodec(lst).then((codec) {
+  //       codec.getNextFrame().then((frameInfo) {
+  //         image = frameInfo.image;
+  //         if (kDebugMode) {
+  //           print("bkImage instantiated: $image");
+  //         }
+  //       });
+  //     });
+  //   });
+    // properties ??= <String, dynamic>{};
+    // final ui.Image? image = properties?['image'];
+    // if (image != null) {
+    //   return;
+    // }
+    //
+    // try {
+    //   final ByteData data = await rootBundle.load('assets/images/fire_icon.png');
+    //   final image = await loadImage(Uint8List.view(data.buffer));
+    //   if (properties?['image'] == null) {
+    //     properties?['image'] = image;
+    //   }
+    // } catch(e) {
+    //   if (kDebugMode) {
+    //     print(e.toString());
+    //   }
+    // }
+  // }
+
+  // Future<ui.Image> loadImage(List<int> img) async {
+  //   final Completer<ui.Image> completer = Completer();
+  //   ui.decodeImageFromList(img as Uint8List, (ui.Image img) {
+  //     return completer.complete(img);
+  //   });
+  //   return completer.future;
+  // }
 
   void _drawLife(Canvas canvas) {
     double xBar = position.x + 26;
@@ -49,6 +95,19 @@ class BarLifeInterface extends InterfaceComponent
           ..color = _getColorLife(currentBarLife)
           ..strokeWidth = strokeWidth
           ..style = PaintingStyle.fill);
+
+    final textPainter = TextPainter(
+      text: const TextSpan(text: "ケイパビリティ"),
+      textDirection: TextDirection.ltr,
+    );
+    textPainter.layout(
+      minWidth: 0,
+      maxWidth: 300,
+    );
+
+    textPainter.paint(canvas, Offset(xBar, yBar + 30));
+
+    canvas.drawImage(image, Offset(xBar, yBar + 60), ui.Paint());
   }
 
   void _drawStamina(Canvas canvas) {

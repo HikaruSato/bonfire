@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:bonfire/bonfire.dart';
 import 'package:example/shared/enemy/goblin.dart';
 import 'package:example/shared/interface/bar_life_component.dart';
 import 'package:example/shared/player/knight.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'dart:ui' as ui;
+import 'package:flutter/services.dart' show rootBundle;
 
 class KnightInterface extends GameInterface {
   static const followerWidgetTestId = 'BUTTON';
@@ -10,7 +15,8 @@ class KnightInterface extends GameInterface {
 
   @override
   void onMount() async {
-    await add(BarLifeInterface());
+    final image = await _getFireIcon();
+    await add(BarLifeInterface(image: image));
     await add(InterfaceComponent(
       spriteUnselected: Sprite.load('blue_button1.png'),
       spriteSelected: Sprite.load('blue_button2.png'),
@@ -69,6 +75,22 @@ class KnightInterface extends GameInterface {
       },
     ));
     super.onMount();
+  }
+
+  Future<ui.Image> _getFireIcon() async {
+    try {
+      final icon = await rootBundle.load("assets/images/fire_icon.png");
+      Uint8List lst = Uint8List.view(icon.buffer);
+      final codec = await ui.instantiateImageCodec(lst);
+      final frameInfo = await codec.getNextFrame();
+      return frameInfo.image;
+    } catch(e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+
+      rethrow;
+    }
   }
 
   void changeControllerToVisibleEnemy() {
