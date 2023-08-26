@@ -35,46 +35,6 @@ class BarLifeInterface extends InterfaceComponent
     }
   }
 
-  // ui.Image? image;
-  // Future<void> _init() async {
-  //   rootBundle.load("assets/images/fire_icon.png").then((icon) {
-  //     Uint8List lst = Uint8List.view(icon.buffer);
-  //     ui.instantiateImageCodec(lst).then((codec) {
-  //       codec.getNextFrame().then((frameInfo) {
-  //         image = frameInfo.image;
-  //         if (kDebugMode) {
-  //           print("bkImage instantiated: $image");
-  //         }
-  //       });
-  //     });
-  //   });
-    // properties ??= <String, dynamic>{};
-    // final ui.Image? image = properties?['image'];
-    // if (image != null) {
-    //   return;
-    // }
-    //
-    // try {
-    //   final ByteData data = await rootBundle.load('assets/images/fire_icon.png');
-    //   final image = await loadImage(Uint8List.view(data.buffer));
-    //   if (properties?['image'] == null) {
-    //     properties?['image'] = image;
-    //   }
-    // } catch(e) {
-    //   if (kDebugMode) {
-    //     print(e.toString());
-    //   }
-    // }
-  // }
-
-  // Future<ui.Image> loadImage(List<int> img) async {
-  //   final Completer<ui.Image> completer = Completer();
-  //   ui.decodeImageFromList(img as Uint8List, (ui.Image img) {
-  //     return completer.complete(img);
-  //   });
-  //   return completer.future;
-  // }
-
   void _drawLife(Canvas canvas) {
     double xBar = position.x + 26;
     double yBar = position.y + 10;
